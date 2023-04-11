@@ -52,4 +52,10 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="AuthorizationPage.xaml.cs">
+	    <DependentUpon>AuthorizationPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>
