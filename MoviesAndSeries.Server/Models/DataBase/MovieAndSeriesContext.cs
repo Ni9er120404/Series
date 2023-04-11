@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MoviesAndSeries.Server.Models.Models.MoviesAndSeries;
 
 namespace MoviesAndSeries.Server.Models.DataBase
 {
