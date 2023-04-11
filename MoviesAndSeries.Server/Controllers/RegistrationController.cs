@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MoviesAndSeries.Server.Models;
 using MoviesAndSeries.Server.Models.DataBase;
+using MoviesAndSeries.Server.Models.Models.MoviesAndSeries;
 
 namespace MoviesAndSeries.Server.Controllers
 {
-	[ApiController]
+    [ApiController]
 	[Route("[controller]")]
 	public class RegistrationController : Controller
 	{
