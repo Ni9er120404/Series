@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using MoviesAndSeries.Server.Models;
 using MoviesAndSeries.Server.Models.DataBase;
 
 namespace MoviesAndSeries.Server
 {
 	public class Program
 	{
-		private static readonly HttpClient? _httpClient;
+		private static readonly string _link = "https://serialfan.net/";
+		private static readonly string _firstCriterion = "newscatalog-list";
+		private static readonly string _secondCriterion = "text-align:center;padding: 20px 0px 0px 0px;";
 
 		public static void Main(string[] args)
 		{
@@ -18,7 +21,7 @@ namespace MoviesAndSeries.Server
 			_ = builder.Services.AddSwaggerGen();
 			_ = builder.Services.AddDbContext<MovieAndSeriesContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
 
-			WebApplication app = builder.Build();
+			using WebApplication app = builder.Build();
 
 			if (app.Environment.IsDevelopment())
 			{
@@ -30,20 +33,11 @@ namespace MoviesAndSeries.Server
 			_ = app.UseAuthorization();
 			_ = app.MapControllers();
 
-			_ = app.MapGet("/getInfo", () => GetHtmlAsync("https://serialfan.net/"));
+			Information information = new(_link, _firstCriterion, _secondCriterion);
+
+			_ = app.MapGet("/", () => information.GetStartDateOfSeriesAsync());
 
 			app.Run();
-		}
-
-		private static async Task<string> GetHtmlAsync(string url)
-		{
-			HttpResponseMessage response = await _httpClient!.GetAsync(url);
-
-			_ = response.EnsureSuccessStatusCode();
-
-			string html = await response.Content.ReadAsStringAsync();
-
-			return html;
 		}
 	}
 }
