@@ -1,12 +1,11 @@
-﻿namespace MoviesAndSeries.Client
-{
-	public partial class App : Application
-	{
-		public App()
-		{
-			InitializeComponent();
+﻿namespace MaSMAUI;
 
-			MainPage = new AppShell();
-		}
+public partial class App : Application
+{
+	public App()
+	{
+		InitializeComponent();
+
+		MainPage = new NavigationPage(new AfterLogin());
 	}
 }
