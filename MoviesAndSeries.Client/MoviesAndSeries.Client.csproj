@@ -63,6 +63,9 @@
 	  <MauiXaml Update="Profile.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Serial.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Serials.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
