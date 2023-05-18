@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MaSMAUI.MainPage"
+             Title="Login">
+
+    <ScrollView>
+            <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center"
+            WidthRequest="300">
+            <Label FontSize="Medium" VerticalTextAlignment="Center">Login</Label>
+
+            <Border Stroke="#FFFF" StrokeShape="RoundRectangle 10" Padding="30">
+                <StackLayout Spacing="25">
+                    <StackLayout>
+                        <Label>Email</Label>
+                        <Entry Keyboard="Email" ReturnType="Next"></Entry>
+                    </StackLayout>
+                    <StackLayout>
+                        <Label>Password</Label>
+                        <Entry Keyboard="Default" IsPassword="True" ReturnType="Go"></Entry>
+                    </StackLayout>
+                    <Button Text="Login" Clicked="Login"></Button>
+                </StackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
