@@ -5,12 +5,7 @@
              x:Class="MaSMAUI.Serials"
              Title="Serials">
     <ScrollView>
-        <VerticalStackLayout>
-            <Label 
-                Text="Welcome to .NET MAUI!"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-            <local:Serial></local:Serial>
+        <VerticalStackLayout x:Name="SeriesStack">
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
