@@ -7,9 +7,10 @@ public partial class MainPage : ContentPage
 		InitializeComponent();
 	}
 
-	private void Login(object sender, EventArgs e)
+	private async void Login(object sender, EventArgs e)
 	{
-
-	}
+        // Navigate to page AfterLogin
+        await Navigation.PushAsync(new AfterLogin()); 
+    }
 }
 
