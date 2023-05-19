@@ -1,7 +1,9 @@
-﻿namespace MoviesAndSeries.Server.Models.Models.MoviesAndSeries
+﻿namespace MoviesAndSeries.Server.Models.DataBaseModels
 {
 	public class Series
 	{
+		public Series() { }
+
 		public int? Id { get; set; }
 
 		public string Name { get; set; } = null!;

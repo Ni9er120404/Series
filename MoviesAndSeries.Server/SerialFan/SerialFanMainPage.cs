@@ -53,7 +53,6 @@ namespace MoviesAndSeries.Server.SerialFan
 				// Return the object
 				yield return serialInfo;
 			}
-
 		}
 	}
 }
