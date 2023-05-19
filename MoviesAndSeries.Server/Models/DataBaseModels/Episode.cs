@@ -1,4 +1,4 @@
-﻿namespace MoviesAndSeries.Server.Models.Models.MoviesAndSeries
+﻿namespace MoviesAndSeries.Server.Models.DataBaseModels
 {
 	public class Episode
 	{

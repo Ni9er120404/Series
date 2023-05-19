@@ -6,6 +6,7 @@ namespace MoviesAndSeries.Server.Interfaces
 		where TEpisodes : IEpisode
 	{
 		string Number { get; }
+
 		ImmutableArray<TEpisodes> Episodes { get; }
 	}
 }

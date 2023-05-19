@@ -11,11 +11,15 @@ namespace MoviesAndSeries.Server.SerialFan
 		public readonly SerialFanSerialInfo Parse(PartialSerialFanSerialInfo partialInfo)
 		{
 			HtmlWeb web = new();
+
 			HtmlDocument document = web.Load(partialInfo.LinkToInfoPage);
+
 			string name = partialInfo.Name;
 			string description = document.DocumentNode.QuerySelector("div.cat-desc-serial div.body").InnerText;
 			string poster = document.DocumentNode.QuerySelector("div.field-poster img").Attributes["src"].Value;
+
 			ulong medEpisodeDuration = 0;
+
 			foreach (HtmlNode? node in document.DocumentNode.QuerySelectorAll("ul.info-list li"))
 			{
 				HtmlNode? label = node.QuerySelector("div.field-label");
@@ -29,6 +33,7 @@ namespace MoviesAndSeries.Server.SerialFan
 				medEpisodeDuration = ulong.Parse(pure_duration) * 60 * 1000;
 				break;
 			}
+
 			ImmutableArray<SerialFanSeason> seasons = document.DocumentNode.QuerySelectorAll("div.episode-group").Select(group =>
 			{
 				string season_number = group.GetAttributeValue("data-key", "1");
