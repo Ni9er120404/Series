@@ -1,4 +1,6 @@
-﻿namespace MaSMAUI;
+﻿using System.Text.RegularExpressions;
+
+namespace MaSMAUI;
 
 public partial class MainPage : ContentPage
 {
@@ -13,4 +15,10 @@ public partial class MainPage : ContentPage
         await Navigation.PushAsync(new AfterLogin()); 
     }
 }
+
+internal readonly struct LoginBinding {
+	public static string EmailPattern => new GeneratedRegexAttribute("""(?<name>\w*)@(?<domain>(?<domainname>\w*).(?<domainarea>\w*))""").Pattern;
+	public LoginBinding() { }
+}
+
 
