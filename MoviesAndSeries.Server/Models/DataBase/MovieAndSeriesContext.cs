@@ -7,8 +7,8 @@ namespace MoviesAndSeries.Server.Models.DataBase
 	{
 		public MovieAndSeriesContext(DbContextOptions options) : base(options)
 		{
-			_ = Database.EnsureDeleted();
-			_ = Database.EnsureCreated();
+			//_ = Database.EnsureDeleted();
+			//_ = Database.EnsureCreated();
 		}
 
 		public DbSet<Episode>? Episodes { get; set; }

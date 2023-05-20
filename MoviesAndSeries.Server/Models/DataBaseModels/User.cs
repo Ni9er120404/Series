@@ -13,12 +13,14 @@
 			Email = email;
 			Series = new List<Series>();
 			Movies = new List<Movie>();
+			SeriesViewCount = new Dictionary<Series, int>();
 		}
 
 		public User()
 		{
 			Series = new List<Series>();
 			Movies = new List<Movie>();
+			SeriesViewCount = new Dictionary<Series, int>();
 		}
 
 		public int? Id { get; set; }
@@ -73,5 +75,19 @@
 				return _timeSpentOnMovie;
 			}
 		}
+
+		public void AddSeriesViewCount(Series series, int count)
+		{
+			if (SeriesViewCount.ContainsKey(series))
+			{
+				SeriesViewCount[series] += count;
+			}
+			else
+			{
+				SeriesViewCount[series] = count;
+			}
+		}
+
+		public Dictionary<Series, int> SeriesViewCount { get; }
 	}
 }

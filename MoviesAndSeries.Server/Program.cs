@@ -9,12 +9,12 @@ namespace MoviesAndSeries.Server
 		{
 			WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-			string connectionString = builder.Configuration.GetConnectionString("DefaultConnectionForSqlServer")!;
+			string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
 			_ = builder.Services.AddControllers();
 			_ = builder.Services.AddEndpointsApiExplorer();
 			_ = builder.Services.AddSwaggerGen();
-			_ = builder.Services.AddDbContext<MovieAndSeriesContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
+			_ = builder.Services.AddDbContext<MovieAndSeriesContext>(optionsAction => optionsAction.UseNpgsql(connectionString));
 
 			using WebApplication app = builder.Build();
 
