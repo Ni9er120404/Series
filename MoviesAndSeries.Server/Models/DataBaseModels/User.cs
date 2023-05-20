@@ -2,15 +2,24 @@
 {
 	public class User
 	{
+		private TimeSpan _timeSpentOnSeries;
+		private TimeSpan _timeSpentOnMovie;
+
 		public User(string lastName, string firstName, string password, string email)
 		{
 			LastName = lastName;
 			FirstName = firstName;
 			Password = password;
 			Email = email;
+			Series = new List<Series>();
+			Movies = new List<Movie>();
 		}
 
-		public User() { }
+		public User()
+		{
+			Series = new List<Series>();
+			Movies = new List<Movie>();
+		}
 
 		public int? Id { get; set; }
 
@@ -26,28 +35,18 @@
 
 		public string Password { get; set; } = null!;
 
-		public List<Series> Series { get; set; } = new();
+		public List<Series> Series { get; set; }
 
-		private TimeSpan _timeSpan;
+		public List<Movie> Movies { get; set; }
 
-		public TimeSpan TimeSpan
-		{
-			get
-			{
-				return _timeSpan;
-			}
-			private set
-			{
-				_timeSpan = TimeSpentOnMovie + TimeSpentOnSeries;
-			}
-		}
-
-		private TimeSpan _timeSpentOnSeries;
+		public TimeSpan TimeSpan => TimeSpentOnMovie + TimeSpentOnSeries;
 
 		public TimeSpan TimeSpentOnSeries
 		{
 			get
 			{
+				_timeSpentOnSeries = TimeSpan.Zero;
+
 				foreach (Series series in Series)
 				{
 					foreach (Episode episode in series.Episodes)
@@ -55,20 +54,17 @@
 						_timeSpentOnSeries += episode.Duration;
 					}
 				}
+
 				return _timeSpentOnSeries;
 			}
-
-			set => _timeSpentOnSeries = value;
 		}
-
-		public List<Movie> Movies { get; set; } = new();
-
-		private TimeSpan _timeSpentOnMovie;
 
 		public TimeSpan TimeSpentOnMovie
 		{
 			get
 			{
+				_timeSpentOnMovie = TimeSpan.Zero;
+
 				foreach (Movie movie in Movies)
 				{
 					_timeSpentOnMovie += movie.Duration;
@@ -76,8 +72,6 @@
 
 				return _timeSpentOnMovie;
 			}
-
-			set => _timeSpentOnMovie = value;
 		}
 	}
 }
