@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MoviesAndSeries.Server.Models.DataBase;
 using MoviesAndSeries.Server.Models.DataBaseModels;
 
@@ -15,55 +16,43 @@ namespace MoviesAndSeries.Server.Controllers
 			_context = context;
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> Post()
+		[HttpPost("{name}, {quantity}")]
+		public async Task<IActionResult> AddSeries(string name, int quantity)
 		{
-			User user = new();
+			if (string.IsNullOrEmpty(name))
+			{
+				return BadRequest("Пустое поле.");
+			}
 
-			await _context.Series!.AddRangeAsync(await user.Info());
+			Series? series = await _context.Series!.FirstOrDefaultAsync(s => s.Name == name);
+
+			if (series is null)
+			{
+				return NotFound("Не существует такого сериала.");
+			}
+
+			User user = new();
+			user.SeriesViewCount.Add(series, quantity);
+			_ = _context.Users!.Add(user);
 
 			_ = await _context.SaveChangesAsync();
 
-			return Ok();
+			return Ok("Добавлен новый сериал");
 		}
 
-		//[HttpPost("{name}, {quantity}")]
-		//public async Task<IActionResult> AddSeries(string name, int quantity)
-		//{
-		//	if (string.IsNullOrEmpty(name))
-		//	{
-		//		return BadRequest("Пустое поле.");
-		//	}
+		[HttpGet]
+		public async Task<IActionResult> GetWatchedSeriesTime()
+		{
+			User? user = await _context.Users!.FirstOrDefaultAsync();
 
-		//	Series? series = await _context.Series!.FirstOrDefaultAsync(s => s.Name == name);
-
-		//	if (series is null)
-		//	{
-		//		return NotFound("Не существует такого сериала.");
-		//	}
-
-		//	User user = new();
-		//	user.SeriesViewCount.Add(series, quantity);
-		//	_ = _context.Users!.Add(user);
-
-		//	_ = await _context.SaveChangesAsync();
-
-		//	return Ok("Добавлен новый сериал");
-		//}
-
-		//[HttpGet]
-		//public async Task<IActionResult> GetWatchedSeriesTime()
-		//{
-		//	User? user = await _context.Users!.FirstOrDefaultAsync();
-
-		//	if (user is null)
-		//	{
-		//		return NotFound();
-		//	}
-		//	else
-		//	{
-		//		return Content($"{user.TimeSpentOnSeries}");
-		//	}
-		//}
+			if (user is null)
+			{
+				return NotFound();
+			}
+			else
+			{
+				return Content($"{user.TimeSpentOnSeries}");
+			}
+		}
 	}
 }

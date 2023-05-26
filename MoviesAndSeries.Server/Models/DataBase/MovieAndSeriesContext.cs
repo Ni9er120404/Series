@@ -19,6 +19,6 @@ namespace MoviesAndSeries.Server.Models.DataBase
 
 		public DbSet<Series>? Series { get; set; }
 
-		//public DbSet<User>? Users { get; set; }
+		public DbSet<User>? Users { get; set; }
 	}
 }
