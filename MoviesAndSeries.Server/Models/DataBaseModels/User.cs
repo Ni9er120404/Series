@@ -1,57 +1,27 @@
-﻿namespace MoviesAndSeries.Server.Models.DataBaseModels
+﻿using MoviesAndSeries.Server.Parsers;
+using MoviesAndSeries.Server.SerialFan;
+
+namespace MoviesAndSeries.Server.Models.DataBaseModels
 {
 	public class User
 	{
-		private TimeSpan _timeSpentOnSeries;
-		private TimeSpan _timeSpentOnMovie;
-
-		public User(string lastName, string firstName, string password, string email)
-		{
-			LastName = lastName;
-			FirstName = firstName;
-			Password = password;
-			Email = email;
-			Series = new List<Series>();
-			Movies = new List<Movie>();
-			SeriesViewCount = new Dictionary<Series, int>();
-		}
+		private ulong _timeSpentOnSeries;
+		private IEnumerable<PartialSerialFanSerialInfo>? _serialInfo;
 
 		public User()
 		{
-			Series = new List<Series>();
-			Movies = new List<Movie>();
 			SeriesViewCount = new Dictionary<Series, int>();
 		}
 
-		public int? Id { get; set; }
-
-		public string LastName { get; set; } = null!;
-
-		public string FirstName { get; set; } = null!;
-
-		public int Age { get; set; }
-
-		public string? UserName { get; set; }
-
-		public string Email { get; set; } = null!;
-
-		public string Password { get; set; } = null!;
-
-		public List<Series> Series { get; set; }
-
-		public List<Movie> Movies { get; set; }
-
-		public TimeSpan TimeSpan => TimeSpentOnMovie + TimeSpentOnSeries;
-
-		public TimeSpan TimeSpentOnSeries
+		public ulong TimeSpentOnSeries
 		{
 			get
 			{
-				_timeSpentOnSeries = TimeSpan.Zero;
+				_timeSpentOnSeries = default;
 
-				foreach (Series series in Series)
+				foreach (Series series in SeriesViewCount.Keys)
 				{
-					foreach (Episode episode in series.Episodes)
+					foreach (Episode episode in series.Episodes!)
 					{
 						_timeSpentOnSeries += episode.Duration;
 					}
@@ -61,33 +31,40 @@
 			}
 		}
 
-		public TimeSpan TimeSpentOnMovie
-		{
-			get
-			{
-				_timeSpentOnMovie = TimeSpan.Zero;
+		public List<Series> Series { get; set; } = new();
 
-				foreach (Movie movie in Movies)
+		public Dictionary<Series, int> SeriesViewCount { get; set; }
+
+		public async Task<List<Series>> Info()
+		{
+			_serialInfo = await SerialFanParser.GetPartialInfo();
+
+			foreach (PartialSerialFanSerialInfo seriesInfo in _serialInfo)
+			{
+				Series series = new(seriesInfo.Name, seriesInfo.KinopoiskRating, seriesInfo.ImdbRating, seriesInfo.StartYear, seriesInfo.EndYear);
+
+				SerialFanSerialInfo episodes = new SerialFanPartialToFullParser().Parse(seriesInfo);
+
+				ulong duration = default;
+				List<Episode> episodesInfo = new();
+				foreach (SerialFanSeason episode in episodes.Seasons)
 				{
-					_timeSpentOnMovie += movie.Duration;
+					foreach (SerialFanEpisode e in episode.Episodes)
+					{
+						duration += e.Duration;
+						Episode episode1 = new()
+						{
+							Duration = duration,
+						};
+						episodesInfo.Add(episode1);
+					}
 				}
+				series.Episodes!.AddRange(episodesInfo);
 
-				return _timeSpentOnMovie;
+				Series.Add(series);
 			}
+
+			return Series;
 		}
-
-		public void AddSeriesViewCount(Series series, int count)
-		{
-			if (SeriesViewCount.ContainsKey(series))
-			{
-				SeriesViewCount[series] += count;
-			}
-			else
-			{
-				SeriesViewCount[series] = count;
-			}
-		}
-
-		public Dictionary<Series, int> SeriesViewCount { get; }
 	}
 }

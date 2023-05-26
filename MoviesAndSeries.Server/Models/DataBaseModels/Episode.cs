@@ -1,11 +1,13 @@
-﻿namespace MoviesAndSeries.Server.Models.DataBaseModels
+﻿using MoviesAndSeries.Server.Interfaces;
+
+namespace MoviesAndSeries.Server.Models.DataBaseModels
 {
-	public class Episode
+	public class Episode : IEpisode
 	{
 		public int? Id { get; set; }
 
 		public string Name { get; set; } = null!;
 
-		public TimeSpan Duration { get; set; }
+		public ulong Duration { get; set; }
 	}
 }

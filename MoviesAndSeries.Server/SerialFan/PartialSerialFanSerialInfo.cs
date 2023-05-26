@@ -5,10 +5,15 @@ namespace MoviesAndSeries.Server.SerialFan
 	public class PartialSerialFanSerialInfo : IPartialSerialInfo
 	{
 		public string Name { get; }
+
 		public string StartYear { get; }
+
 		public string EndYear { get; }
+
 		public string KinopoiskRating { get; }
+
 		public string ImdbRating { get; }
+
 		public Uri LinkToInfoPage { get; }
 
 		string IPartialSerialInfo.Name => Name;

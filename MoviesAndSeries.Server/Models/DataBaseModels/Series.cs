@@ -2,30 +2,27 @@
 {
 	public class Series
 	{
-		public Series()
+		public Series(string name, string kinopoiskRating, string imdbRating, string startDate, string endDate)
 		{
-			People = new List<Person>();
-			Episodes = new List<Episode>();
+			Name = name;
+			KinopoiskRating = kinopoiskRating;
+			ImdbRating = imdbRating;
+			StartDate = startDate;
+			EndDate = endDate;
 		}
 
 		public int? Id { get; set; }
 
-		public string Name { get; set; } = null!;
+		public string Name { get; set; }
 
-		public string? Description { get; set; }
+		public string KinopoiskRating { get; set; }
 
-		public decimal Rating { get; set; }
+		public string ImdbRating { get; set; }
 
-		public int RatingCount { get; set; }
+		public List<Episode>? Episodes { get; } = new();
 
-		public List<Person> People { get; set; }
+		public string? StartDate { get; set; }
 
-		public int NumberOfSeasons { get; set; }
-
-		public List<Episode> Episodes { get; set; }
-
-		public DateTime? StartDate { get; set; }
-
-		public DateTime? EndDate { get; set; }
+		public string? EndDate { get; set; }
 	}
 }

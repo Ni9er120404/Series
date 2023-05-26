@@ -29,20 +29,20 @@ namespace MoviesAndSeries.Server.SerialFan
 				}
 
 				HtmlNode text = node.QuerySelector("div.field-text");
-				string pure_duration = text.InnerText.Replace(" мин.", "").Replace(" мин", "");
-				medEpisodeDuration = ulong.Parse(pure_duration) * 60 * 1000;
+				string pureDuration = text.InnerText.Replace(" мин.", "").Replace(" мин", "");
+				medEpisodeDuration = ulong.Parse(pureDuration) * 60 * 1000;
 				break;
 			}
 
 			ImmutableArray<SerialFanSeason> seasons = document.DocumentNode.QuerySelectorAll("div.episode-group").Select(group =>
 			{
-				string season_number = group.GetAttributeValue("data-key", "1");
+				string seasonNumber = group.GetAttributeValue("data-key", "1");
 				ImmutableArray<SerialFanEpisode> episodes_list = group.QuerySelectorAll("ul.series-list li div.item div.item-serial div.serial-bottom div.field-description a").Reverse().Select(node =>
 				{
 					string name = node.InnerText.SkipWhile(chr => chr != '«').Skip(1).TakeWhile(chr => chr != '»').Aggregate(new StringBuilder(), (builder, chr) => builder.Append(chr)).ToString();
 					return new SerialFanEpisode(name, medEpisodeDuration);
 				}).ToImmutableArray();
-				return new SerialFanSeason(season_number, episodes_list);
+				return new SerialFanSeason(seasonNumber, episodes_list);
 			}).ToImmutableArray();
 
 			return new SerialFanSerialInfo(partialInfo, description, seasons, new UriBuilder()

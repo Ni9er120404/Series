@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using MoviesAndSeries.Server.Models.DataBase;
 using MoviesAndSeries.Server.Models.DataBaseModels;
 
@@ -18,54 +16,54 @@ namespace MoviesAndSeries.Server.Controllers
 		}
 
 		[HttpPost]
-		[Authorize]
-		public async Task<IActionResult> AddSeries(string name, int quantity)
+		public async Task<IActionResult> Post()
 		{
-			if (string.IsNullOrEmpty(name))
-			{
-				return BadRequest("Пустое поле.");
-			}
+			User user = new();
 
-			Series? series = await _context.Series!.FirstOrDefaultAsync(s => s.Name == name);
-
-			if (series is null)
-			{
-				return NotFound("Не существует такого сериала.");
-			}
-
-			string? userName = User.Identity!.Name;
-
-			User? user = await _context.Users!.Include(u => u.Series).FirstOrDefaultAsync(u => u.UserName == userName);
-
-			if (user is null)
-			{
-				return NotFound("Пользователь не найден.");
-			}
-
-			user.Series.Add(series);
-			user.AddSeriesViewCount(series, quantity);
+			await _context.Series!.AddRangeAsync(await user.Info());
 
 			_ = await _context.SaveChangesAsync();
 
-			return Ok("Добавлен новый сериал");
+			return Ok();
 		}
 
-		[HttpGet]
-		[Authorize]
-		public async Task<IActionResult> GetWatchedSeriesTime()
-		{
-			string? userName = User.Identity!.Name;
+		//[HttpPost("{name}, {quantity}")]
+		//public async Task<IActionResult> AddSeries(string name, int quantity)
+		//{
+		//	if (string.IsNullOrEmpty(name))
+		//	{
+		//		return BadRequest("Пустое поле.");
+		//	}
 
-			User? user = await _context.Users!.Include(u => u.Series).FirstOrDefaultAsync(u => u.UserName == userName);
+		//	Series? series = await _context.Series!.FirstOrDefaultAsync(s => s.Name == name);
 
-			if (user is null)
-			{
-				return NotFound("Пользователь не найден.");
-			}
+		//	if (series is null)
+		//	{
+		//		return NotFound("Не существует такого сериала.");
+		//	}
 
-			Dictionary<Series, int> series = user.SeriesViewCount;
+		//	User user = new();
+		//	user.SeriesViewCount.Add(series, quantity);
+		//	_ = _context.Users!.Add(user);
 
-			return Ok(series);
-		}
+		//	_ = await _context.SaveChangesAsync();
+
+		//	return Ok("Добавлен новый сериал");
+		//}
+
+		//[HttpGet]
+		//public async Task<IActionResult> GetWatchedSeriesTime()
+		//{
+		//	User? user = await _context.Users!.FirstOrDefaultAsync();
+
+		//	if (user is null)
+		//	{
+		//		return NotFound();
+		//	}
+		//	else
+		//	{
+		//		return Content($"{user.TimeSpentOnSeries}");
+		//	}
+		//}
 	}
 }
