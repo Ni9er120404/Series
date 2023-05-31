@@ -22,7 +22,7 @@ namespace MoviesAndSeries.Server.SerialFan
 
 			if (numberStart == text.Length)
 			{
-				return 0;
+				return "0";
 			}
 
 			var numberEnd = numberStart;
