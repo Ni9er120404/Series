@@ -8,6 +8,37 @@ namespace MoviesAndSeries.Server.SerialFan
 {
 	internal struct SerialFanPartialToFullParser : IPartialToFullInfoParser<PartialSerialFanSerialInfo, SerialFanSeason, SerialFanSerialInfo, SerialFanEpisode>
 	{
+		private static string GetFirstNumberInString(string text)
+		{
+			var numberStart = 0;
+			for (;numberStart < text.Length; numberStart++)
+			{
+				var number = text[numberStart];
+				if (char.IsDigit(number))
+				{
+					break;
+				}
+			}
+
+			if (numberStart == text.Length)
+			{
+				return 0;
+			}
+
+			var numberEnd = numberStart;
+
+			for (;numberEnd < text.Length;numberEnd++)
+			{
+				var number = text[numberEnd];
+				if (!char.IsDigit(number))
+				{
+					break;
+				}
+			}
+
+			return text[numberStart..numberEnd];
+		}
+
 		public readonly SerialFanSerialInfo Parse(PartialSerialFanSerialInfo partialInfo)
 		{
 			HtmlWeb web = new();
@@ -29,7 +60,7 @@ namespace MoviesAndSeries.Server.SerialFan
 				}
 
 				HtmlNode text = node.QuerySelector("div.field-text");
-				string pureDuration = text.InnerText.Replace(" мин.", "").Replace(" мин", "");
+				string pureDuration = GetFirstNumberInString(text.InnerText.Split(' ')[0].Replace(" мин.", "").Replace(" мин", ""));
 				medEpisodeDuration = ulong.Parse(pureDuration) * 60 * 1000;
 				break;
 			}
