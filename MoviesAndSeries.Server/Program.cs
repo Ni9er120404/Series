@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using MoviesAndSeries.Server.Models.DataBase;
 
@@ -24,7 +25,16 @@ namespace MoviesAndSeries.Server
 				_ = app.UseSwaggerUI();
 			}
 
-			_ = app.UseHttpsRedirection();
+			if (!app.Environment.IsDevelopment())
+			{
+				_ = app.UseHttpsRedirection();
+			}
+
+			_ = app.UseForwardedHeaders(new ForwardedHeadersOptions
+			{
+				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+			});
+
 			_ = app.UseAuthorization();
 			_ = app.MapControllers();
 

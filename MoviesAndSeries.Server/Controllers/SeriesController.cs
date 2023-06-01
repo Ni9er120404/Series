@@ -39,15 +39,17 @@ namespace MoviesAndSeries.Server.Controllers
 			}
 
 			Series? series = await _context.Series!.FirstOrDefaultAsync(s => s.Name == name);
+
 			if (series is null)
 			{
 				return NotFound("Не существует такого сериала.");
 			}
+
 			IQueryable<Episode> episodes = _context.Episodes.Where(x => x.SeriesId == series.Id);
+
 			series.Episodes = episodes.ToList();
+
 			Models.DataBaseModels.User.SeriesViewCount.Add(series, quantity);
-			//_context.Users!.FirstOrDefault()!.SeriesViewCount.Add(seriesInfo, quantity);
-			//_ = _context.Users!.Add(user);
 
 			_ = await _context.SaveChangesAsync();
 
@@ -57,18 +59,15 @@ namespace MoviesAndSeries.Server.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetWatchedSeriesTime()
 		{
-			//User? user = await _context.Users!.FirstOrDefaultAsync();
-
-			//if (user is null)
-			//{
-			//	return NotFound();
-			//}
-			//else
-			//{
 			return Ok($"{Models.DataBaseModels.User.TimeSpentOnSeries}");
-			//}
 		}
-		//[HttpPost]
+
+		[HttpGet("list/{start}, {amount}")]
+		public async Task<IEnumerable<Series>> GetAllSeries(int start, int amount)
+		{
+			return _context.Series!.OrderBy(x => x.Id).Skip(start).Take(amount);
+		}
+
 		private async Task<List<Series>> Info()
 		{
 			IEnumerable<SerialFanSerialInfo> info = new SerialFanParser()
@@ -80,7 +79,10 @@ namespace MoviesAndSeries.Server.Controllers
 
 			foreach (SerialFanSerialInfo? seriesInfo in info)
 			{
-				Series series = new(seriesInfo.Name, seriesInfo.KinopoiskRating, seriesInfo.ImdbRating, seriesInfo.StartYear, seriesInfo.EndYear);
+				Series series = new(seriesInfo.Name, seriesInfo.KinopoiskRating, seriesInfo.ImdbRating, seriesInfo.StartYear, seriesInfo.EndYear)
+				{
+					Poster = seriesInfo.PosterUri.ToString(),
+				};
 				series.Episodes!.AddRange(seriesInfo.Seasons.SelectMany(season => season.Episodes.AsEnumerable().Select(episode => new Episode()
 				{
 					Name = episode.Name,
@@ -90,42 +92,6 @@ namespace MoviesAndSeries.Server.Controllers
 			}
 
 			return serials;
-
-			//_serialInfo = await SerialFanParser.GetPartialInfo();
-			//List<Series> result = new List<Series>();
-			//foreach (PartialSerialFanSerialInfo seriesInfo in _serialInfo)
-			//{
-			//	Series seriesInfo = new(seriesInfo.Name, seriesInfo.KinopoiskRating, seriesInfo.ImdbRating, seriesInfo.StartYear, seriesInfo.EndYear);
-			//	//_ = new SerialFanParser().Parse();
-			//	List<Episode> episodesInfo = new();
-			//	for (int i = 0; i < 10; i++)
-			//	{
-			//		Episode episode = new()
-			//		{
-			//			Duration = (ulong)new Random().Next(40, 60),
-			//		};
-			//		episodesInfo.Add(episode);
-			//	}
-
-			//	//foreach (var episode in episodes.Seasons)
-			//	//{
-			//	//	foreach (SerialFanEpisode e in episode.Episodes)
-			//	//	{
-			//	//		duration += e.Duration;
-			//	//		Episode episode1 = new()
-			//	//		{
-			//	//			Duration = duration,
-			//	//		};
-			//	//		episodesInfo.Add(episode1);
-			//	//	}
-			//	//}
-			//	seriesInfo.Episodes!.AddRange(episodesInfo);
-
-			//	_ = _context.Series.Add(seriesInfo);
-			//}
-			//_context.Series.AddRange(result);
-			//_ = _context.SaveChanges();
-			//return _context.Series.ToList();
 		}
 	}
 }

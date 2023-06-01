@@ -13,12 +13,6 @@ namespace MoviesAndSeries.Server.Models.DataBase
 		public MovieAndSeriesContext() { }
 		public DbSet<Episode>? Episodes { get; set; }
 
-		//public DbSet<Movie>? Movies { get; set; }
-
-		//public DbSet<Person>? People { get; set; }
-
 		public DbSet<Series>? Series { get; set; }
-
-		//public DbSet<User>? Users { get; set; }
 	}
 }
