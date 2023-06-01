@@ -23,9 +23,10 @@ namespace MoviesAndSeries.Server
 
 			using WebApplication app = builder.Build();
 
+			_ = app.UseSwagger();
+
 			if (app.Environment.IsDevelopment())
 			{
-				_ = app.UseSwagger();
 				_ = app.UseSwaggerUI();
 			}
 
