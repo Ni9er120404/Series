@@ -19,7 +19,7 @@
 
 		public string ImdbRating { get; set; }
 
-		public List<Episode>? Episodes { get; } = new();
+		public List<Episode>? Episodes { get; set; } = new();
 
 		public string? StartDate { get; set; }
 

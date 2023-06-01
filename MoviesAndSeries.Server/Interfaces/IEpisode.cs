@@ -8,7 +8,7 @@
 		/// <summary>
 		/// Name of the episode
 		/// </summary>
-		public string Name { get; }
+		public string? Name { get; }
 
 		/// <summary>
 		/// Duration in seconds
