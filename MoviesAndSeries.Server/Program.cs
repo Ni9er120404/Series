@@ -9,8 +9,12 @@ namespace MoviesAndSeries.Server
 		public static void Main(string[] args)
 		{
 			WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
+#if DEBUG
 			string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+#else
+			string connectionString = "Host=10.0.0.231;Port=5432;Database=movies_and_serials;Username=niger;Password=MyPassword1!"!;
+#endif
+
 
 			_ = builder.Services.AddControllers();
 			_ = builder.Services.AddEndpointsApiExplorer();
