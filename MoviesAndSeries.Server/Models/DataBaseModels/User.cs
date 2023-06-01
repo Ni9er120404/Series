@@ -1,5 +1,6 @@
 ﻿using MoviesAndSeries.Server.Parsers;
 using MoviesAndSeries.Server.SerialFan;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoviesAndSeries.Server.Models.DataBaseModels
 {
@@ -7,11 +8,6 @@ namespace MoviesAndSeries.Server.Models.DataBaseModels
 	{
 		private ulong _timeSpentOnSeries;
 		private IEnumerable<PartialSerialFanSerialInfo>? _serialInfo;
-
-		public User()
-		{
-			SeriesViewCount = new Dictionary<Series, int>();
-		}
 
 		public ulong TimeSpentOnSeries
 		{
@@ -31,9 +27,12 @@ namespace MoviesAndSeries.Server.Models.DataBaseModels
 			}
 		}
 
+		public int? Id { get; set; }
+
 		public List<Series> Series { get; set; } = new();
 
-		public Dictionary<Series, int> SeriesViewCount { get; set; }
+		[NotMapped]
+		public Dictionary<Series, int> SeriesViewCount { get; set; } = new();
 
 		public async Task<List<Series>> Info()
 		{
@@ -43,22 +42,31 @@ namespace MoviesAndSeries.Server.Models.DataBaseModels
 			{
 				Series series = new(seriesInfo.Name, seriesInfo.KinopoiskRating, seriesInfo.ImdbRating, seriesInfo.StartYear, seriesInfo.EndYear);
 
-				SerialFanSerialInfo episodes = new SerialFanPartialToFullParser().Parse(seriesInfo);
+				//IAsyncEnumerable<SerialFanSerialInfo> episodes = new SerialFanParser().Parse();
 
-				ulong duration = default;
+				//ulong duration = default;
 				List<Episode> episodesInfo = new();
-				foreach (SerialFanSeason episode in episodes.Seasons)
+				for (int i = 0; i < series.Episodes.Count; i++)
 				{
-					foreach (SerialFanEpisode e in episode.Episodes)
+					Episode episode = new()
 					{
-						duration += e.Duration;
-						Episode episode1 = new()
-						{
-							Duration = duration,
-						};
-						episodesInfo.Add(episode1);
-					}
+						Duration = (ulong)new Random().Next(40, 60),
+					};
+					episodesInfo.Add(episode);
 				}
+
+				//foreach (SerialFanSeason episode in episodes.Seasons)
+				//{
+				//	foreach (SerialFanEpisode e in episode.Episodes)
+				//	{
+				//		duration += e.Duration;
+				//		Episode episode1 = new()
+				//		{
+				//			Duration = duration,
+				//		};
+				//		episodesInfo.Add(episode1);
+				//	}
+				//}
 				series.Episodes!.AddRange(episodesInfo);
 
 				Series.Add(series);

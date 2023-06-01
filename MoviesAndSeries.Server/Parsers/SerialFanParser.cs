@@ -29,7 +29,21 @@ namespace MoviesAndSeries.Server.Parsers
 			SerialFanPartialToFullParser partialToFull = new();
 			foreach (PartialSerialFanSerialInfo partial in partials)
 			{
-				yield return partialToFull.Parse(partial);
+				SerialFanSerialInfo? result = null;
+				// This try doesnt catch exceptions that are thrown by the partialToFull.Parse method
+				try
+				{
+					result = partialToFull.Parse(partial);
+				}
+				catch
+				{
+					await Console.Out.WriteLineAsync($"Ошибка на сериале {partial.Name}");
+				}
+
+				if (result is not null)
+				{
+					yield return result;
+				}
 			}
 		}
 	}

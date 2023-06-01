@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MoviesAndSeries.Server.Models.DataBase;
 using MoviesAndSeries.Server.Models.DataBaseModels;
 
@@ -14,6 +15,21 @@ namespace MoviesAndSeries.Server.Controllers
 		public SeriesController(MovieAndSeriesContext context)
 		{
 			_context = context;
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Post()
+		{
+			User user = new();
+
+			if (_context.Series.IsNullOrEmpty())
+			{
+				await _context.Series!.AddRangeAsync(await user.Info());
+
+				_ = await _context.SaveChangesAsync();
+			}
+
+			return Ok();
 		}
 
 		[HttpPost("{name}, {quantity}")]
@@ -31,9 +47,10 @@ namespace MoviesAndSeries.Server.Controllers
 				return NotFound("Не существует такого сериала.");
 			}
 
-			User user = new();
-			user.SeriesViewCount.Add(series, quantity);
-			_ = _context.Users!.Add(user);
+			//User user = new();
+			//user.SeriesViewCount.Add(series, quantity);
+			_context.Users!.FirstOrDefault()!.SeriesViewCount.Add(series, quantity);
+			//_ = _context.Users!.Add(user);
 
 			_ = await _context.SaveChangesAsync();
 
@@ -51,7 +68,7 @@ namespace MoviesAndSeries.Server.Controllers
 			}
 			else
 			{
-				return Content($"{user.TimeSpentOnSeries}");
+				return Ok($"{user.TimeSpentOnSeries}");
 			}
 		}
 	}
