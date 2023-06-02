@@ -48,6 +48,7 @@ namespace MoviesAndSeries.Server.Controllers
 
 			series.Episodes = episodes.ToList();
 
+			Models.DataBaseModels.User.SeriesViewCount.Remove(series.Name);
 			Models.DataBaseModels.User.SeriesViewCount.Add(series.Name, quantity);
 
 			_ = await _context.SaveChangesAsync();
