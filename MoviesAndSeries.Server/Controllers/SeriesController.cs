@@ -62,6 +62,20 @@ namespace MoviesAndSeries.Server.Controllers
 			return Models.DataBaseModels.User.TimeSpentOnSeries;
 		}
 
+		[HttpGet("seriesWatched/{name}")]
+		public async Task<ActionResult<ulong>> GetWatchedAmount(string seriesName)
+		{
+			Series? series = await _context.Series!.FirstOrDefaultAsync(s => s.Name == seriesName);
+
+			if (series is null)
+			{
+				return BadRequest("No such series found");
+			}
+
+			var watchedTimes = Models.DataBaseModels.User.SeriesViewCount.GetValueOrDefault(series);
+			return Ok(watchedTimes);
+		}
+
 		[HttpGet("list/{start}, {amount}")]
 		public async Task<IEnumerable<Series>> GetAllSeries(int start, int amount)
 		{
