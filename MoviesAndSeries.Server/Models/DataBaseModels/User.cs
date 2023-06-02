@@ -14,12 +14,13 @@ namespace MoviesAndSeries.Server.Models.DataBaseModels
 			{
 				_timeSpentOnSeries = default;
 
-				foreach (Series series in SeriesViewCount.Keys)
+				foreach ((Series series, ulong quantity) in SeriesViewCount)
 				{
 					foreach (Episode episode in series.Episodes!)
 					{
 						_timeSpentOnSeries += episode.Duration;
 					}
+					_timeSpentOnSeries *= quantity;
 				}
 
 				return _timeSpentOnSeries;
@@ -29,6 +30,6 @@ namespace MoviesAndSeries.Server.Models.DataBaseModels
 		public static List<Series> Series { get; set; } = new();
 
 		[NotMapped]
-		public static Dictionary<Series, int> SeriesViewCount { get; set; } = new();
+		public static Dictionary<Series, ulong> SeriesViewCount { get; set; } = new();
 	}
 }

@@ -31,7 +31,7 @@ namespace MoviesAndSeries.Server.Controllers
 		}
 
 		[HttpPost("{name}, {quantity}")]
-		public async Task<IActionResult> AddSeries(string name, int quantity)
+		public async Task<IActionResult> AddSeries(string name, ulong quantity)
 		{
 			if (string.IsNullOrEmpty(name))
 			{
