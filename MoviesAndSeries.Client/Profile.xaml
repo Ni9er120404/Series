@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MaSMAUI.Profile"
              Title="Profile">
-    <VerticalStackLayout VerticalOptions="Center">
+    <VerticalStackLayout VerticalOptions="Center" Spacing="15">
         <Label 
             Text="Количество потраченных часов"
             VerticalOptions="Center" 
@@ -14,5 +14,6 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center"
             FontSize="Large" />
+        <Button Text="Обновить количество часов" WidthRequest="500" TextColor="Black" Clicked="Refresh_Button_Clicked"/>
     </VerticalStackLayout>
 </ContentPage>
