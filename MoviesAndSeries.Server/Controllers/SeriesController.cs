@@ -26,12 +26,11 @@ namespace MoviesAndSeries.Server.Controllers
 
 			_ = await _context.SaveChangesAsync();
 
-
 			return Ok();
 		}
 
 		[HttpPost("{name}, {quantity}")]
-		public async Task<IActionResult> AddSeries(string name, ulong quantity)
+		public async Task<ActionResult<string>> AddSeries(string name, ulong quantity)
 		{
 			if (string.IsNullOrEmpty(name))
 			{
@@ -65,11 +64,16 @@ namespace MoviesAndSeries.Server.Controllers
 		[HttpGet("seriesWatched/{name}")]
 		public async Task<ActionResult<ulong>> GetWatchedAmount(string seriesName)
 		{
+			if (string.IsNullOrEmpty(seriesName) || string.IsNullOrWhiteSpace(seriesName))
+			{
+				return BadRequest("Recieved a malformed string");
+			}
+
 			Series? series = await _context.Series!.FirstOrDefaultAsync(s => s.Name == seriesName);
 
 			if (series is null)
 			{
-				return BadRequest("No such series found");
+				return NotFound("No such series found");
 			}
 
 			var watchedTimes = Models.DataBaseModels.User.SeriesViewCount.GetValueOrDefault(series);
