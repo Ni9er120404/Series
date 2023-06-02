@@ -5,17 +5,34 @@
              x:Class="MaSMAUI.Serial"
              x:DataType="local:Series"
              >
+    <ContentView.Resources>
+        <Style x:Key="amountStyle" TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="30" />
+        </Style>
+        <Style x:Key="buttonStyle" TargetType="Button">
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="BorderWidth" Value="0"/>
+            <Setter Property="TextColor" Value="White"/>
+        </Style>
+    </ContentView.Resources>
+
     <Border Padding="15" Stroke="White" StrokeShape="RoundRectangle 10">
         <VerticalStackLayout VerticalOptions="Center" Spacing="10">
             <Image x:Name="PosterImage" Source="{Binding Poster}"></Image>
             <Label x:Name="NameLabel" HorizontalOptions="Center" Text="{Binding Name}"></Label>
             <Border StrokeShape="RoundRectangle 100">
                 <HorizontalStackLayout HorizontalOptions="Fill">
-                    <Border StrokeShape="RoundRectangle 100 0 100 0" Stroke="White" HorizontalOptions="Start">
-                        <Label FontSize="30">+</Label>
+                    <Button Text="+" Style="{StaticResource buttonStyle}" Clicked="Add_Button_Clicked"/>
+                    <Border>
+                        <Label x:Name="Amount" Text="{Binding WatchCounter}" Style="{StaticResource amountStyle}" WidthRequest="275"/>
                     </Border>
-                    <Label x:Name="CounterLabel" FontSize="30" HorizontalOptions="Center" Text="{Binding WatchCounter}"></Label>
-                    <Label FontSize="30" HorizontalOptions="End">-</Label>
+                    <Button Text="-" Style="{StaticResource buttonStyle}" Clicked="Minus_Button_Clicked"/>
                 </HorizontalStackLayout>
             </Border>
         </VerticalStackLayout>
