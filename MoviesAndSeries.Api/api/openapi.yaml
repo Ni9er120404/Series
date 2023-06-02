@@ -1,0 +1,156 @@
+openapi: 3.0.1
+info:
+  title: MoviesAndSeries.Server
+  version: "1.0"
+servers:
+- url: /
+paths:
+  /api/Series:
+    get:
+      responses:
+        "200":
+          description: Success
+      tags:
+      - Series
+    post:
+      responses:
+        "200":
+          description: Success
+      tags:
+      - Series
+  /api/Series/{name}, {quantity}:
+    post:
+      parameters:
+      - explode: false
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: quantity
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Success
+      tags:
+      - Series
+  /api/Series/list/{start}, {amount}:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: start
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      - explode: false
+        in: path
+        name: amount
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Series'
+                type: array
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Series'
+                type: array
+            text/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Series'
+                type: array
+          description: Success
+      tags:
+      - Series
+components:
+  schemas:
+    Episode:
+      additionalProperties: false
+      example:
+        duration: 1
+        name: name
+        id: 6
+        seriesId: 5
+      properties:
+        id:
+          format: int32
+          nullable: true
+          type: integer
+        name:
+          nullable: true
+          type: string
+        duration:
+          format: int64
+          type: integer
+        seriesId:
+          format: int32
+          type: integer
+      type: object
+    Series:
+      additionalProperties: false
+      example:
+        kinopoiskRating: kinopoiskRating
+        endDate: endDate
+        name: name
+        imdbRating: imdbRating
+        id: 0
+        poster: poster
+        episodes:
+        - duration: 1
+          name: name
+          id: 6
+          seriesId: 5
+        - duration: 1
+          name: name
+          id: 6
+          seriesId: 5
+        startDate: startDate
+      properties:
+        id:
+          format: int32
+          nullable: true
+          type: integer
+        name:
+          nullable: true
+          type: string
+        kinopoiskRating:
+          nullable: true
+          type: string
+        imdbRating:
+          nullable: true
+          type: string
+        episodes:
+          items:
+            $ref: '#/components/schemas/Episode'
+          nullable: true
+          type: array
+        startDate:
+          nullable: true
+          type: string
+        endDate:
+          nullable: true
+          type: string
+        poster:
+          nullable: true
+          type: string
+      type: object
+
