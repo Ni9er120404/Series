@@ -85,7 +85,7 @@ namespace MoviesAndSeries.Server.Controllers
 			IEnumerable<SerialFanSerialInfo> info = new SerialFanParser()
 				.Parse()
 				.ToBlockingEnumerable()
-				.Take(10);
+				.Take(100);
 
 			List<Series> serials = new(10);
 

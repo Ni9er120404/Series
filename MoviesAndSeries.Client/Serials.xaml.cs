@@ -10,7 +10,7 @@ public partial class Serials : ContentPage
 	private static List<Series> GetSerials()
 	{
 		var connection = ApiConnection.GetInstance();
-		var series = connection.Api.ApiSeriesListStartAmountGet(0, 10);
+		var series = connection.Api.ApiSeriesListStartAmountGet(0, 100);
 		return series
 			.Select(series => new Series(series) {
 				WatchCounter = connection.Api.ApiSeriesSeriesWatchedSeriesNamePost(series.Name)
