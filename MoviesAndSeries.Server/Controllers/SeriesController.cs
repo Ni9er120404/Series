@@ -57,9 +57,9 @@ namespace MoviesAndSeries.Server.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetWatchedSeriesTime()
+		public async Task<ulong> GetWatchedSeriesTime()
 		{
-			return Ok($"{Models.DataBaseModels.User.TimeSpentOnSeries}");
+			return Models.DataBaseModels.User.TimeSpentOnSeries;
 		}
 
 		[HttpGet("list/{start}, {amount}")]
