@@ -61,8 +61,8 @@ namespace MoviesAndSeries.Server.Controllers
 			return Models.DataBaseModels.User.TimeSpentOnSeries;
 		}
 
-		[HttpGet("seriesWatched")]
-		public async Task<ActionResult<ulong>> GetWatchedAmount([FromBody] string seriesName)
+		[HttpPost("seriesWatched/{seriesName}")]
+		public async Task<ActionResult<ulong>> GetWatchedAmount(string seriesName)
 		{
 			if (string.IsNullOrEmpty(seriesName) || string.IsNullOrWhiteSpace(seriesName))
 			{
