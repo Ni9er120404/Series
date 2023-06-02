@@ -8,26 +8,19 @@
  */
 
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Polly;
+using RestSharp;
+using RestSharp.Serializers;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
-using System.Text;
-using System.Threading;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using RestSharp;
-using RestSharp.Serializers;
 using RestSharpMethod = RestSharp.Method;
-using Polly;
 
 namespace Org.OpenAPITools.Client
 {
@@ -482,7 +475,7 @@ namespace Org.OpenAPITools.Client
             {
                 try
                 {
-                    response.Data = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                    response.Data = (T)typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
                 }
                 catch (Exception ex)
                 {
@@ -575,7 +568,7 @@ namespace Org.OpenAPITools.Client
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
             {
-                response.Data = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                response.Data = (T)typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
             }
             else if (typeof(T).Name == "Stream") // for binary response
             {

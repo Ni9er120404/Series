@@ -9,19 +9,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 
 namespace Org.OpenAPITools.Model
 {
@@ -152,43 +144,43 @@ namespace Org.OpenAPITools.Model
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.Name == input.Name ||
                     (this.Name != null &&
                     this.Name.Equals(input.Name))
-                ) && 
+                ) &&
                 (
                     this.KinopoiskRating == input.KinopoiskRating ||
                     (this.KinopoiskRating != null &&
                     this.KinopoiskRating.Equals(input.KinopoiskRating))
-                ) && 
+                ) &&
                 (
                     this.ImdbRating == input.ImdbRating ||
                     (this.ImdbRating != null &&
                     this.ImdbRating.Equals(input.ImdbRating))
-                ) && 
+                ) &&
                 (
                     this.Episodes == input.Episodes ||
                     this.Episodes != null &&
                     input.Episodes != null &&
                     this.Episodes.SequenceEqual(input.Episodes)
-                ) && 
+                ) &&
                 (
                     this.StartDate == input.StartDate ||
                     (this.StartDate != null &&
                     this.StartDate.Equals(input.StartDate))
-                ) && 
+                ) &&
                 (
                     this.EndDate == input.EndDate ||
                     (this.EndDate != null &&
                     this.EndDate.Equals(input.EndDate))
-                ) && 
+                ) &&
                 (
                     this.Poster == input.Poster ||
                     (this.Poster != null &&

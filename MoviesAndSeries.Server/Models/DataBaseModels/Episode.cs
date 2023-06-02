@@ -2,14 +2,14 @@
 
 namespace MoviesAndSeries.Server.Models.DataBaseModels
 {
-	public class Episode : IEpisode
-	{
-		public int? Id { get; set; }
+    public class Episode : IEpisode
+    {
+        public int? Id { get; set; }
 
-		public string? Name { get; set; }
+        public string? Name { get; set; }
 
-		public ulong Duration { get; set; }
+        public ulong Duration { get; set; }
 
-		public int SeriesId { get; set; }
-	}
+        public int SeriesId { get; set; }
+    }
 }

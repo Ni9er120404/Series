@@ -3,16 +3,16 @@ using System.Collections.Immutable;
 
 namespace MoviesAndSeries.Server.SerialFan
 {
-	public readonly struct SerialFanSeason : ISeason<SerialFanEpisode>
-	{
-		public string Number { get; }
+    public readonly struct SerialFanSeason : ISeason<SerialFanEpisode>
+    {
+        public string Number { get; }
 
-		public ImmutableArray<SerialFanEpisode> Episodes { get; }
+        public ImmutableArray<SerialFanEpisode> Episodes { get; }
 
-		internal SerialFanSeason(string number, ImmutableArray<SerialFanEpisode> episodes)
-		{
-			Number = number;
-			Episodes = episodes;
-		}
-	}
+        internal SerialFanSeason(string number, ImmutableArray<SerialFanEpisode> episodes)
+        {
+            Number = number;
+            Episodes = episodes;
+        }
+    }
 }
