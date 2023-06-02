@@ -9,6 +9,19 @@ paths:
     get:
       responses:
         "200":
+          content:
+            text/plain:
+              schema:
+                format: int64
+                type: integer
+            application/json:
+              schema:
+                format: int64
+                type: integer
+            text/json:
+              schema:
+                format: int64
+                type: integer
           description: Success
       tags:
       - Series
@@ -33,11 +46,49 @@ paths:
         name: quantity
         required: true
         schema:
-          format: int32
+          format: int64
           type: integer
         style: simple
       responses:
         "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+          description: Success
+      tags:
+      - Series
+  /api/Series/seriesWatched/{seriesName}:
+    post:
+      parameters:
+      - explode: false
+        in: path
+        name: seriesName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                format: int64
+                type: integer
+            application/json:
+              schema:
+                format: int64
+                type: integer
+            text/json:
+              schema:
+                format: int64
+                type: integer
           description: Success
       tags:
       - Series

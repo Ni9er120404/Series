@@ -8,10 +8,11 @@ All URIs are relative to *http://localhost*
 | [**ApiSeriesListStartAmountGet**](SeriesApi.md#apiseriesliststartamountget) | **GET** /api/Series/list/{start}, {amount} |  |
 | [**ApiSeriesNameQuantityPost**](SeriesApi.md#apiseriesnamequantitypost) | **POST** /api/Series/{name}, {quantity} |  |
 | [**ApiSeriesPost**](SeriesApi.md#apiseriespost) | **POST** /api/Series |  |
+| [**ApiSeriesSeriesWatchedSeriesNamePost**](SeriesApi.md#apiseriesserieswatchedseriesnamepost) | **POST** /api/Series/seriesWatched/{seriesName} |  |
 
 <a id="apiseriesget"></a>
 # **ApiSeriesGet**
-> void ApiSeriesGet ()
+> long ApiSeriesGet ()
 
 
 
@@ -35,7 +36,8 @@ namespace Example
 
             try
             {
-                apiInstance.ApiSeriesGet();
+                long result = apiInstance.ApiSeriesGet();
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -54,7 +56,10 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    apiInstance.ApiSeriesGetWithHttpInfo();
+    ApiResponse<long> response = apiInstance.ApiSeriesGetWithHttpInfo();
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -68,7 +73,7 @@ catch (ApiException e)
 This endpoint does not need any parameter.
 ### Return type
 
-void (empty response body)
+**long**
 
 ### Authorization
 
@@ -77,7 +82,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain, application/json, text/json
 
 
 ### HTTP response details
@@ -178,7 +183,7 @@ No authorization required
 
 <a id="apiseriesnamequantitypost"></a>
 # **ApiSeriesNameQuantityPost**
-> void ApiSeriesNameQuantityPost (string name, int quantity)
+> string ApiSeriesNameQuantityPost (string name, long quantity)
 
 
 
@@ -200,11 +205,12 @@ namespace Example
             config.BasePath = "http://localhost";
             var apiInstance = new SeriesApi(config);
             var name = "name_example";  // string | 
-            var quantity = 56;  // int | 
+            var quantity = 789L;  // long | 
 
             try
             {
-                apiInstance.ApiSeriesNameQuantityPost(name, quantity);
+                string result = apiInstance.ApiSeriesNameQuantityPost(name, quantity);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -223,7 +229,10 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    apiInstance.ApiSeriesNameQuantityPostWithHttpInfo(name, quantity);
+    ApiResponse<string> response = apiInstance.ApiSeriesNameQuantityPostWithHttpInfo(name, quantity);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -238,11 +247,11 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **name** | **string** |  |  |
-| **quantity** | **int** |  |  |
+| **quantity** | **long** |  |  |
 
 ### Return type
 
-void (empty response body)
+**string**
 
 ### Authorization
 
@@ -251,7 +260,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain, application/json, text/json
 
 
 ### HTTP response details
@@ -330,6 +339,93 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="apiseriesserieswatchedseriesnamepost"></a>
+# **ApiSeriesSeriesWatchedSeriesNamePost**
+> long ApiSeriesSeriesWatchedSeriesNamePost (string seriesName)
+
+
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class ApiSeriesSeriesWatchedSeriesNamePostExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost";
+            var apiInstance = new SeriesApi(config);
+            var seriesName = "seriesName_example";  // string | 
+
+            try
+            {
+                long result = apiInstance.ApiSeriesSeriesWatchedSeriesNamePost(seriesName);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling SeriesApi.ApiSeriesSeriesWatchedSeriesNamePost: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the ApiSeriesSeriesWatchedSeriesNamePostWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    ApiResponse<long> response = apiInstance.ApiSeriesSeriesWatchedSeriesNamePostWithHttpInfo(seriesName);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling SeriesApi.ApiSeriesSeriesWatchedSeriesNamePostWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **seriesName** | **string** |  |  |
+
+### Return type
+
+**long**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
 
 
 ### HTTP response details

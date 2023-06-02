@@ -77,7 +77,8 @@ namespace Example
 
             try
             {
-                apiInstance.ApiSeriesGet();
+                long result = apiInstance.ApiSeriesGet();
+                Debug.WriteLine(result);
             }
             catch (ApiException e)
             {
@@ -102,6 +103,7 @@ Class | Method | HTTP request | Description
 *SeriesApi* | [**ApiSeriesListStartAmountGet**](docs\SeriesApi.md#apiseriesliststartamountget) | **GET** /api/Series/list/{start}, {amount} | 
 *SeriesApi* | [**ApiSeriesNameQuantityPost**](docs\SeriesApi.md#apiseriesnamequantitypost) | **POST** /api/Series/{name}, {quantity} | 
 *SeriesApi* | [**ApiSeriesPost**](docs\SeriesApi.md#apiseriespost) | **POST** /api/Series | 
+*SeriesApi* | [**ApiSeriesSeriesWatchedSeriesNamePost**](docs\SeriesApi.md#apiseriesserieswatchedseriesnamepost) | **POST** /api/Series/seriesWatched/{seriesName} | 
 
 
 <a id="documentation-for-models"></a>
