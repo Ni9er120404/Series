@@ -4,25 +4,30 @@ namespace MaSMAUI;
 
 public partial class Serials : ContentPage
 {
-	private async Task<IEnumerable<Series>> GetSerials()
+	private static readonly Lazy<List<Series>> _series = new(GetSerials);
+	public static List<Series> Series { get => _series.Value; }
+
+	private static List<Series> GetSerials()
 	{
-		return new List<Series>();
+		var connection = ApiConnection.GetInstance();
+		var series = connection.Api.ApiSeriesListStartAmountGet(0, 10);
+		return series
+			.Select(series => new Series(series) {
+				WatchCounter = connection.Api.ApiSeriesSeriesWatchedSeriesNamePost(series.Name)
+			})
+			.ToList();
 	}
 
 	public Serials()
 	{
 		InitializeComponent();
-		var seriesThread = new Thread(async () =>
+
+		foreach (var serial in Series)
 		{
-			var series = await GetSerials();
-			foreach (var serial in series)
+			SeriesStack.Add(new Serial()
 			{
-				SeriesStack.Add(new Serial()
-				{
-					Series = serial,
-				});
-			}
-		});
-		seriesThread.Start();
+				Series = serial,
+			});
+		}
 	}
 }

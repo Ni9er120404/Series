@@ -5,7 +5,6 @@
              x:Class="MaSMAUI.Serials"
              Title="Serials">
     <ScrollView>
-        <VerticalStackLayout x:Name="SeriesStack">
-        </VerticalStackLayout>
+        <VerticalStackLayout x:Name="SeriesStack" HorizontalOptions="Center" WidthRequest="400" Spacing="20"/>
     </ScrollView>
 </ContentPage>
