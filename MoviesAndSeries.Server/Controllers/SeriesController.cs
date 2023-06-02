@@ -48,7 +48,7 @@ namespace MoviesAndSeries.Server.Controllers
 
 			series.Episodes = episodes.ToList();
 
-			Models.DataBaseModels.User.SeriesViewCount.Add(series, quantity);
+			Models.DataBaseModels.User.SeriesViewCount.Add(series.Name, quantity);
 
 			_ = await _context.SaveChangesAsync();
 
@@ -58,7 +58,7 @@ namespace MoviesAndSeries.Server.Controllers
 		[HttpGet]
 		public async Task<ulong> GetWatchedSeriesTime()
 		{
-			return Models.DataBaseModels.User.TimeSpentOnSeries;
+			return await Models.DataBaseModels.User.CalculateTimeSpentOnSeries(_context.Series!, _context.Episodes!);
 		}
 
 		[HttpPost("seriesWatched/{seriesName}")]
@@ -69,14 +69,7 @@ namespace MoviesAndSeries.Server.Controllers
 				return BadRequest("Recieved a malformed string");
 			}
 
-			Series? series = await _context.Series!.FirstOrDefaultAsync(s => s.Name == seriesName);
-
-			if (series is null)
-			{
-				return NotFound("No such series found");
-			}
-
-			var watchedTimes = Models.DataBaseModels.User.SeriesViewCount.GetValueOrDefault(series);
+			var watchedTimes = Models.DataBaseModels.User.SeriesViewCount.GetValueOrDefault(seriesName);
 			return Ok(watchedTimes);
 		}
 

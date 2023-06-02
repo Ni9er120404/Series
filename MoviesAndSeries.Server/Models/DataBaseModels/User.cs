@@ -1,35 +1,33 @@
-﻿using MoviesAndSeries.Server.SerialFan;
+﻿using Microsoft.EntityFrameworkCore;
+using MoviesAndSeries.Server.SerialFan;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoviesAndSeries.Server.Models.DataBaseModels
 {
 	public class User
 	{
-		private static ulong _timeSpentOnSeries;
-		private static readonly IEnumerable<PartialSerialFanSerialInfo>? _serialInfo;
-
-		public static ulong TimeSpentOnSeries
+		public static async Task<ulong> CalculateTimeSpentOnSeries(DbSet<Series> seriesSet, DbSet<Episode> episodeSet)
 		{
-			get
+			ulong timeSpentOnSeries = default;
+
+			foreach ((string seriesName, ulong quantity) in SeriesViewCount)
 			{
-				_timeSpentOnSeries = default;
-
-				foreach ((Series series, ulong quantity) in SeriesViewCount)
+				var series = await seriesSet.FirstOrDefaultAsync(x => x.Name == seriesName);
+				if (series is null) continue;
+				var episodes = episodeSet.Where(x => x.SeriesId == series.Id);
+				foreach (Episode episode in episodes)
 				{
-					foreach (Episode episode in series.Episodes!)
-					{
-						_timeSpentOnSeries += episode.Duration;
-					}
-					_timeSpentOnSeries *= quantity;
+					timeSpentOnSeries += episode.Duration;
 				}
-
-				return _timeSpentOnSeries;
+				timeSpentOnSeries *= quantity;
 			}
+
+			return timeSpentOnSeries;
 		}
 
 		public static List<Series> Series { get; set; } = new();
 
 		[NotMapped]
-		public static Dictionary<Series, ulong> SeriesViewCount { get; set; } = new();
+		public static Dictionary<string, ulong> SeriesViewCount { get; set; } = new();
 	}
 }
